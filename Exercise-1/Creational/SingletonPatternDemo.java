@@ -1,4 +1,4 @@
-// Singleton Pattern Example
+import java.util.Scanner;
 
 class ConfigurationManager {
     private static ConfigurationManager instance;
@@ -27,10 +27,17 @@ class ConfigurationManager {
 // Demo
 public class SingletonPatternDemo {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
         ConfigurationManager cm1 = ConfigurationManager.getInstance();
-        cm1.setConfig("Dark Mode Enabled");
+
+        System.out.print("Enter configuration setting: ");
+        String userConfig = sc.nextLine();
+        cm1.setConfig(userConfig);
 
         ConfigurationManager cm2 = ConfigurationManager.getInstance();
         System.out.println("Config from second reference: " + cm2.getConfig());
+
+        sc.close();
     }
 }

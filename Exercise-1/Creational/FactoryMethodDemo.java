@@ -1,4 +1,4 @@
-// Factory Method Pattern Example
+import java.util.Scanner;
 
 interface Notification {
     void notifyUser();
@@ -30,10 +30,26 @@ class NotificationFactory {
 // Demo
 public class FactoryMethodDemo {
     public static void main(String[] args) {
-        Notification notification1 = NotificationFactory.createNotification("SMS");
-        notification1.notifyUser();
+        Scanner sc = new Scanner(System.in);
 
-        Notification notification2 = NotificationFactory.createNotification("EMAIL");
-        notification2.notifyUser();
+        String choice;
+        do {
+            System.out.print("Enter notification type (SMS/EMAIL): ");
+            String type = sc.nextLine();
+
+            Notification notification = NotificationFactory.createNotification(type);
+
+            if (notification != null) {
+                notification.notifyUser();
+            } else {
+                System.out.println("Invalid notification type. Try again.");
+            }
+
+            System.out.print("Do you want to send another notification? (yes/no): ");
+            choice = sc.nextLine().toLowerCase();
+
+        } while (choice.equals("yes"));
+
+        sc.close();
     }
 }

@@ -3,11 +3,13 @@ import java.util.*;
 interface Observer {
     void update(String stockName, double price);
 }
+
 interface Subject {
     void registerObserver(Observer o);
     void removeObserver(Observer o);
     void notifyObservers();
 }
+
 class Stock implements Subject {
     private List<Observer> observers = new ArrayList<>();
     private String stockName;
@@ -52,14 +54,36 @@ class Investor implements Observer {
 
 public class ObserverPatternDemo {
     public static void main(String[] args) {
-        Stock appleStock = new Stock("Apple", 150);
-        Investor john = new Investor("John");
-        Investor emma = new Investor("Emma");
+        Scanner sc = new Scanner(System.in);
 
-        appleStock.registerObserver(john);
-        appleStock.registerObserver(emma);
+        System.out.print("Enter stock name: ");
+        String stockName = sc.nextLine();
+        System.out.print("Enter initial stock price: ");
+        double price = sc.nextDouble();
+        sc.nextLine(); 
 
-        appleStock.setPrice(155);
-        appleStock.setPrice(160);
+        Stock stock = new Stock(stockName, price);
+
+        System.out.print("Enter number of investors: ");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Enter name of investor " + i + ": ");
+            String investorName = sc.nextLine();
+            stock.registerObserver(new Investor(investorName));
+        }
+
+        String choice;
+        do {
+            System.out.print("Enter new stock price: ");
+            double newPrice = sc.nextDouble();
+            stock.setPrice(newPrice);
+
+            System.out.print("Update price again? (yes/no): ");
+            choice = sc.next().toLowerCase();
+        } while (choice.equals("yes"));
+
+        sc.close();
     }
 }
